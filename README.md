@@ -1,1 +1,1 @@
-# eslint-config-patrikvalkovic
+# @PatrikValkovic/eslint-config
