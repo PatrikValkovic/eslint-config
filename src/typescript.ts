@@ -1,30 +1,39 @@
-const eslint = require("@eslint/js");
-const tsEslint = require("typescript-eslint");
-const typescriptParser = require("@typescript-eslint/parser");
-
-const noOnlyTestsPlugin = require("eslint-plugin-no-only-tests");
-const unusedImportsPlugin = require("eslint-plugin-unused-imports");
-const patrikImportRulePlugin = require("@patrikvalkovic/eslint-plugin-import-rule");
+import eslint from "@eslint/js";
+import tsEslint from "typescript-eslint";
+// @ts-expect-error typing is missing
+import typescriptParser from "@typescript-eslint/parser";
+// @ts-expect-error typing is missing
+import noOnlyTestsPlugin from "eslint-plugin-no-only-tests";
+// @ts-expect-error typing is missing
+import unusedImportsPlugin from "eslint-plugin-unused-imports";
+import patrikImportRulePlugin from "@patrikvalkovic/eslint-plugin-import-rule";
 const importPlugin = require("eslint-plugin-import");
 
 const isFixMode = process.argv.includes("--fix");
 
-export const typescriptConfig = (tsFilePath: string) => [
+const config = (tsFilePath: string) => ([
     eslint.configs.recommended,
     tsEslint.configs.eslintRecommended,
     ...tsEslint.configs.recommended,
     {
-        files: ['**/*.ts'],
+        name: '@patrikvalkovic/eslint-config/typescript',
         languageOptions: {
             parser: typescriptParser,
             parserOptions: {
                 project: tsFilePath,
             }
         },
+        settings: {
+            "eslint-plugin-import/resolver": {
+                typescript: {
+                    project: [ tsFilePath ],
+                },
+            },
+        },
         plugins: {
-            'import': importPlugin,
-            'no-only': noOnlyTestsPlugin,
-            'unused-imports': unusedImportsPlugin,
+            'eslint-plugin-import': importPlugin,
+            'eslint-plugin-no-only-tests': noOnlyTestsPlugin,
+            'eslint-plugin-unused-imports': unusedImportsPlugin,
             '@patrikvalkovic/import-rule': patrikImportRulePlugin,
         },
         rules: {
@@ -201,7 +210,7 @@ export const typescriptConfig = (tsFilePath: string) => [
             ],
             "keyword-spacing": "error",
             "linebreak-style": "error",
-            "lines-between-class-members": ["error", "always", { "exceptAfterSingleLine": true }],
+            "lines-between-class-members": ["error", "always", {"exceptAfterSingleLine": true}],
             "no-tabs": "error",
             "no-trailing-spaces": "error",
             "no-whitespace-before-property": "error",
@@ -268,19 +277,19 @@ export const typescriptConfig = (tsFilePath: string) => [
             //  ║      IMPORTS      ║
             //  ║                   ║
             //  ╚═══════════════════╝
-            "import/first": "error",
-            "import/no-absolute-path": "error",
-            "import/no-duplicates": "error",
-            //"import/no-mutable-exports": "warn", // TODO uncomment when it is ready for eslint v9
-            "import/no-unresolved": "error",
-            "import/no-useless-path-segments": "error",
-            "import/order": [
+            "eslint-plugin-import/first": "error",
+            "eslint-plugin-import/no-absolute-path": "error",
+            "eslint-plugin-import/no-duplicates": "error",
+            //"eslint-plugin-import/no-mutable-exports": "warn", // TODO uncomment when it is ready for eslint v9
+            "eslint-plugin-import/no-unresolved": "error",
+            "eslint-plugin-import/no-useless-path-segments": "error",
+            "eslint-plugin-import/order": [
                 "error",
                 {
                     "newlines-between": "never",
                 },
             ],
-            "unused-imports/no-unused-imports": isFixMode ? "error" : "off",
+            "eslint-plugin-unused-imports/no-unused-imports": isFixMode ? "error" : "off",
             "@patrikvalkovic/import-rule/format-import": "error",
             //  ╔══════════════════════════════╗
             //  ║                              ║
@@ -294,7 +303,7 @@ export const typescriptConfig = (tsFilePath: string) => [
                     "prefer": "no-type-imports"
                 }
             ],
-            "@typescript-eslint/member-delimiter-style": "error",
+            // "@typescript-eslint/member-delimiter-style": "error", // TODO stylistic
             "@typescript-eslint/method-signature-style": [
                 "error",
                 "method",
@@ -310,7 +319,7 @@ export const typescriptConfig = (tsFilePath: string) => [
                 }
             ],
             "@typescript-eslint/prefer-enum-initializers": "error",
-            "@typescript-eslint/type-annotation-spacing": "error",
+            // "@typescript-eslint/type-annotation-spacing": "error", // TODO stylistic
             //  ╔═════════════════════════════════╗
             //  ║                                 ║
             //  ║      Typescript strict rules    ║
@@ -341,9 +350,9 @@ export const typescriptConfig = (tsFilePath: string) => [
             //  ║      Tests and Test runner      ║
             //  ║                                 ║
             //  ╚═════════════════════════════════╝
-            "no-only-tests/no-only-tests": "error",
+            "eslint-plugin-no-only-tests/no-only-tests": "error",
         },
     }
-]
+]);
 
-export default typescriptConfig;
+export = config;
