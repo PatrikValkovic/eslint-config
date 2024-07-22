@@ -1,0 +1,49 @@
+{
+  "name": "@patrikvalkovic/eslint-config",
+  "version": "0.0.1",
+  "description": "Opinionated eslint config",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PatrikValkovic/eslint-config.git"
+  },
+  "keywords": [
+    "eslint",
+    "config",
+    "eslintconfig",
+    "javascript",
+    "styleguide"
+  ],
+  "author": "Patrik Valkovic",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/PatrikValkovic/eslint-config/issues"
+  },
+  "homepage": "https://github.com/PatrikValkovic/eslint-config#readme",
+  "exports": {
+    "./*": {
+      "types": "./build/types/*.d.ts",
+      "require": "./build/cjs/*.js",
+      "import": "./build/esm/*.js",
+      "default": "./build/esm/*.js"
+    }
+  },
+  "scripts": {
+    "build": "rimraf ./build && tsc --build ./tsconfig.cjs.json ./tsconfig.esm.json ./tsconfig.types.json && node ./prepare-package-json.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.11",
+    "rimraf": "^6.0.1",
+    "typescript": "^5.5.3"
+  },
+  "dependencies": {
+    "@eslint/js": "^9.0.0",
+    "@patrikvalkovic/eslint-plugin-import-rule": "^1.0.3",
+    "@typescript-eslint/eslint-plugin": "^8.0.0-alpha.49",
+    "@typescript-eslint/parser": "^8.0.0-alpha.49",
+    "eslint": "^9.0.0",
+    "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-no-only-tests": "^3.1.0",
+    "typescript-eslint": "^8.0.0-alpha.49"
+  }
+}
