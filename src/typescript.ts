@@ -1,20 +1,31 @@
 import tsEslint from 'typescript-eslint';
 // @ts-expect-error typing is missing
 import typescriptParser from '@typescript-eslint/parser';
+import stylisticPlugin from '@stylistic/eslint-plugin';
+import { mergeDeepRight } from 'ramda';
 import javascriptConfigs from './javascript';
 
-const config = (tsFilePath: string) => ([
-    ...javascriptConfigs(tsFilePath),
+type Config = Parameters<typeof javascriptConfigs>[0];
+
+const config = ({ tsFilePath, languageOptions, ...jsConfig }: Config) => ([
+    ...javascriptConfigs({
+        tsFilePath,
+        languageOptions,
+        ...jsConfig,
+    }),
     tsEslint.configs.eslintRecommended,
     ...tsEslint.configs.recommended,
     {
         name: '@patrikvalkovic/eslint-config/typescript',
-        languageOptions: {
-            parser: typescriptParser,
-            parserOptions: {
-                project: tsFilePath,
+        languageOptions: mergeDeepRight(
+            {
+                parser: typescriptParser,
+                parserOptions: {
+                    project: tsFilePath,
+                },
             },
-        },
+            languageOptions ? languageOptions : {},
+        ),
         settings: {
             'eslint-plugin-import/resolver': {
                 typescript: {
@@ -22,9 +33,22 @@ const config = (tsFilePath: string) => ([
                 },
             },
         },
+        files: [
+            '**/*.ts',
+        ],
         plugins: {
+            '@stylistic': stylisticPlugin,
         },
         rules: {
+            //  ╔══════════════════════╗
+            //  ║                      ║
+            //  ║      @stylistic      ║
+            //  ║                      ║
+            //  ╚══════════════════════╝
+            '@stylistic/member-delimiter-style': 'error',
+            '@stylistic/type-annotation-spacing': 'error',
+            '@stylistic/type-generic-spacing': 'error',
+            '@stylistic/type-named-tuple-spacing': 'error',
             //  ╔══════════════════════════════╗
             //  ║                              ║
             //  ║      TypeScript related      ║
@@ -37,7 +61,6 @@ const config = (tsFilePath: string) => ([
                     'prefer': 'no-type-imports',
                 },
             ],
-            // "@typescript-eslint/member-delimiter-style": "error", // TODO stylistic
             '@typescript-eslint/method-signature-style': [
                 'error',
                 'method',
@@ -53,7 +76,6 @@ const config = (tsFilePath: string) => ([
                 },
             ],
             '@typescript-eslint/prefer-enum-initializers': 'error',
-            // "@typescript-eslint/type-annotation-spacing": "error", // TODO stylistic
             //  ╔═════════════════════════════════╗
             //  ║                                 ║
             //  ║      Typescript strict rules    ║

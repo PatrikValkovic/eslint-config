@@ -1,7 +1,7 @@
 // @ts-expect-error typing is missing
 import typescriptParser from '@typescript-eslint/parser';
 
-const config = (tsFilePath: string) => ([
+const _config = (tsFilePath: string) => ([
     {
         name: '@patrikvalkovic/eslint-config/complexity',
         languageOptions: {

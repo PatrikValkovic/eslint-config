@@ -1,7 +1,13 @@
 const typescript = require('./build/typescript');
+const globals = require('globals');
 
 module.exports = [
-    ...typescript('./tsconfig.json'),
+    ...typescript({
+        tsFilePath: './tsconfig.json',
+        languageOptions: {
+            globals: globals.node,
+        }
+    }),
     {
         ignores: [
             'eslint.config.js',
