@@ -4,12 +4,20 @@ import noOnlyTestsPlugin from 'eslint-plugin-no-only-tests';
 // @ts-expect-error typing is missing
 import unusedImportsPlugin from 'eslint-plugin-unused-imports';
 import patrikImportRulePlugin from '@patrikvalkovic/eslint-plugin-import-rule';
-// eslint-disable-next-line @typescript-eslint/no-require-imports Must be required because it doesn't yet support new eslint
+import stylisticPlugin from '@stylistic/eslint-plugin';
+import {FlatConfig} from "@typescript-eslint/utils/dist/ts-eslint/Config";
+// eslint plugin import must be required because it doesn't yet support new eslint
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 const importPlugin = require('eslint-plugin-import');
 
 const isFixMode = process.argv.includes('--fix');
 
-const config = (tsFilePath: string) => ([
+type Config = {
+    tsFilePath: string;
+    languageOptions?: FlatConfig.LanguageOptions;
+}
+
+const config = ({ tsFilePath, languageOptions }: Config) => ([
     eslint.configs.recommended,
     {
         name: '@patrikvalkovic/eslint-config/javascript',
@@ -20,11 +28,18 @@ const config = (tsFilePath: string) => ([
                 },
             },
         },
+        ...(languageOptions && { languageOptions }),
+        files: [
+            '**/*.js',
+            '**/*.cjs',
+            '**/*.mjs',
+        ],
         plugins: {
             'eslint-plugin-import': importPlugin,
             'eslint-plugin-no-only-tests': noOnlyTestsPlugin,
             'eslint-plugin-unused-imports': unusedImportsPlugin,
             '@patrikvalkovic/import-rule': patrikImportRulePlugin,
+            '@stylistic': stylisticPlugin,
         },
         rules: {
             //  ╔════════════════════╗
@@ -163,93 +178,119 @@ const config = (tsFilePath: string) => ([
             //  ║      @stylistic      ║
             //  ║                      ║
             //  ╚══════════════════════╝
-            'array-bracket-newline': [
+            'unicode-bom': 'error',
+            '@stylistic/array-bracket-newline': [
                 'error',
                 'consistent',
             ],
-            'array-bracket-spacing': [
+            '@stylistic/array-bracket-spacing': [
                 'error',
                 'never',
             ],
-            'array-element-newline': [
+            '@stylistic/array-element-newline': [
                 'error',
                 'consistent',
             ],
-            'arrow-parens': [
+            '@stylistic/arrow-parens': [
                 'error',
                 'as-needed',
             ],
-            'arrow-spacing': [
+            '@stylistic/arrow-spacing': [
                 'error',
                 {
                     'before': true,
                     'after': true,
                 },
             ],
-            'block-spacing': 'error',
-            'brace-style': 'error',
-            'comma-dangle': [
+            '@stylistic/block-spacing': 'error',
+            '@stylistic/brace-style': 'error',
+            '@stylistic/comma-dangle': [
                 'error',
-                {
-                    'arrays': 'always-multiline',
-                    'objects': 'always-multiline',
-                    'imports': 'always-multiline',
-                    'exports': 'always-multiline',
-                    'functions': 'always-multiline',
-                },
+                'always-multiline',
             ],
-            'comma-spacing': 'error',
-            'comma-style': 'error',
-            'eol-last': 'error',
-            'func-call-spacing': 'error',
-            'key-spacing': [
+            '@stylistic/comma-spacing': 'error',
+            '@stylistic/comma-style': 'error',
+            '@stylistic/computed-property-spacing': 'error',
+            '@stylistic/dot-location': ['error', 'property'],
+            '@stylistic/eol-last': 'error',
+            '@stylistic/func-call-spacing': 'error',
+            '@stylistic/function-call-argument-newline': ['error', 'consistent'],
+            '@stylistic/function-call-spacing': 'error',
+            '@stylistic/function-paren-newline': ['error', 'multiline-arguments'],
+            '@stylistic/generator-star-spacing': ['error', 'after'],
+            '@stylistic/implicit-arrow-linebreak': 'error',
+            '@stylistic/indent': ['error', 4],
+            '@stylistic/key-spacing': [
                 'error',
                 {
                     'mode': 'minimum',
                 },
             ],
-            'keyword-spacing': 'error',
-            'linebreak-style': 'error',
-            'lines-between-class-members': ['error', 'always', { 'exceptAfterSingleLine': true }],
-            'no-confusing-arrow': 'error',
-            'no-floating-decimal': 'error',
-            'no-tabs': 'error',
-            'no-trailing-spaces': 'error',
-            'no-whitespace-before-property': 'error',
-            'nonblock-statement-body-position': [
+            '@stylistic/keyword-spacing': 'error',
+            '@stylistic/linebreak-style': 'error',
+            '@stylistic/lines-between-class-members': [
+                'error',
+                'always',
+                {
+                    'exceptAfterSingleLine': true,
+                },
+            ],
+            '@stylistic/max-len': [
+                'warn',
+                {
+                    'code': 120,
+                },
+            ],
+            '@stylistic/new-parens': 'error',
+            '@stylistic/newline-per-chained-call': [
+                'warn',
+                {
+                    'ignoreChainWithDepth': 3,
+                },
+            ],
+            '@stylistic/no-confusing-arrow': 'error',
+            '@stylistic/no-extra-semi': 'error',
+            '@stylistic/no-floating-decimal': 'error',
+            '@stylistic/no-tabs': 'error',
+            '@stylistic/no-trailing-spaces': 'error',
+            '@stylistic/no-whitespace-before-property': 'error',
+            '@stylistic/nonblock-statement-body-position': [
                 'error',
                 'below',
             ],
-            'object-curly-newline': [
+            '@stylistic/object-curly-newline': [
                 'error',
                 {
                     'consistent': true,
                 },
             ],
-            'object-curly-spacing': [
+            '@stylistic/object-curly-spacing': [
                 'error',
                 'always',
             ],
-            'object-property-newline': [
+            '@stylistic/object-property-newline': [
                 'error',
                 {
                     'allowAllPropertiesOnSameLine': true,
                 },
             ],
-            'quotes': [
+            '@stylistic/operator-linebreak': [
+                'error',
+                'before',
+            ],
+            '@stylistic/quotes': [
                 'error',
                 'single',
                 {
                     'allowTemplateLiterals': true,
                 },
             ],
-            'indent': ['error', 4],
-            'rest-spread-spacing': 'error',
-            'semi': 'error',
-            'semi-spacing': 'error',
-            'semi-style': 'error',
-            'space-before-blocks': 'error',
-            'space-before-function-paren': [
+            '@stylistic/rest-spread-spacing': 'error',
+            '@stylistic/semi': 'error',
+            '@stylistic/semi-spacing': 'error',
+            '@stylistic/semi-style': 'error',
+            '@stylistic/space-before-blocks': 'error',
+            '@stylistic/space-before-function-paren': [
                 'error',
                 {
                     'anonymous': 'never',
@@ -257,23 +298,24 @@ const config = (tsFilePath: string) => ([
                     'asyncArrow': 'always',
                 },
             ],
-            'space-in-parens': 'error',
-            'space-unary-ops': [
+            '@stylistic/space-in-parens': 'error',
+            '@stylistic/space-unary-ops': [
                 'error',
                 {
                     'words': true,
                     'nonwords': false,
                 },
             ],
-            'switch-colon-spacing': 'error',
-            'template-curly-spacing': 'error',
-            'template-tag-spacing': 'error',
-            'unicode-bom': 'error',
-            'wrap-iife': [
+            '@stylistic/spaced-comment': 'error',
+            '@stylistic/switch-colon-spacing': 'error',
+            '@stylistic/template-curly-spacing': 'error',
+            '@stylistic/template-tag-spacing': 'error',
+            '@stylistic/wrap-iife': [
                 'error',
                 'inside',
             ],
-            'yield-star-spacing': 'error',
+            '@stylistic/wrap-regex': 'error',
+            '@stylistic/yield-star-spacing': 'error',
             //  ╔═══════════════════╗
             //  ║                   ║
             //  ║      IMPORTS      ║
