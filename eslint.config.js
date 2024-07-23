@@ -15,3 +15,5 @@ module.exports = [
         ],
     },
 ];
+
+console.log('Configuration read');
