@@ -5,7 +5,6 @@ import noOnlyTestsPlugin from 'eslint-plugin-no-only-tests';
 import unusedImportsPlugin from 'eslint-plugin-unused-imports';
 import patrikImportRulePlugin from '@patrikvalkovic/eslint-plugin-import-rule';
 import stylisticPlugin from '@stylistic/eslint-plugin';
-import {FlatConfig} from "@typescript-eslint/utils/dist/ts-eslint/Config";
 // eslint plugin import must be required because it doesn't yet support new eslint
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 const importPlugin = require('eslint-plugin-import');
@@ -14,8 +13,9 @@ const isFixMode = process.argv.includes('--fix');
 
 type Config = {
     tsFilePath: string;
-    languageOptions?: FlatConfig.LanguageOptions;
-}
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    languageOptions?: any;
+};
 
 const config = ({ tsFilePath, languageOptions }: Config) => ([
     eslint.configs.recommended,
@@ -26,20 +26,16 @@ const config = ({ tsFilePath, languageOptions }: Config) => ([
                 typescript: {
                     project: [tsFilePath],
                 },
+                node: true,
             },
         },
         ...(languageOptions && { languageOptions }),
-        files: [
-            '**/*.js',
-            '**/*.cjs',
-            '**/*.mjs',
-        ],
         plugins: {
-            'eslint-plugin-import': importPlugin,
-            'eslint-plugin-no-only-tests': noOnlyTestsPlugin,
-            'eslint-plugin-unused-imports': unusedImportsPlugin,
-            '@patrikvalkovic/import-rule': patrikImportRulePlugin,
             '@stylistic': stylisticPlugin,
+            'eslint-plugin-import': importPlugin,
+            'eslint-plugin-unused-imports': unusedImportsPlugin,
+            'eslint-plugin-no-only-tests': noOnlyTestsPlugin,
+            '@patrikvalkovic/import-rule': patrikImportRulePlugin,
         },
         rules: {
             //  ╔════════════════════╗
@@ -321,18 +317,40 @@ const config = ({ tsFilePath, languageOptions }: Config) => ([
             //  ║      IMPORTS      ║
             //  ║                   ║
             //  ╚═══════════════════╝
-            'eslint-plugin-import/first': 'error',
+            'eslint-plugin-import/export': 'error',
+            'eslint-plugin-import/no-deprecated': 'error',
+            'eslint-plugin-import/no-empty-named-blocks': 'error',
+            'eslint-plugin-import/no-extraneous-dependencies': [
+                'error',
+                {
+                    devDependencies: [
+                        '**/*.test.*',
+                        '**/*.spec.*',
+                    ],
+                },
+            ],
+            'eslint-plugin-import/no-mutable-exports': 'error',
+            // TODO uncomment when it is ready for eslint v9
+            // "eslint-plugin-import/no-mutable-exports": "warn",
+            // 'eslint-plugin-import/no-named-as-default-member': 'warn',
+            // 'eslint-plugin-import/no-amd': 'error',
+            'eslint-plugin-import/default': 'error',
+            'eslint-plugin-import/named': 'error',
             'eslint-plugin-import/no-absolute-path': 'error',
-            'eslint-plugin-import/no-duplicates': 'error',
-            // "eslint-plugin-import/no-mutable-exports": "warn", // TODO uncomment when it is ready for eslint v9
+            'eslint-plugin-import/no-self-import': 'error',
             'eslint-plugin-import/no-unresolved': 'error',
             'eslint-plugin-import/no-useless-path-segments': 'error',
+            'eslint-plugin-import/exports-last': 'error',
+            'eslint-plugin-import/first': 'error',
+            // 'eslint-plugin-import/newline-after-import': 'error',
+            'eslint-plugin-import/no-duplicates': 'error',
             'eslint-plugin-import/order': [
                 'error',
                 {
                     'newlines-between': 'never',
                 },
             ],
+
             'eslint-plugin-unused-imports/no-unused-imports': isFixMode ? 'error' : 'off',
             '@patrikvalkovic/import-rule/format-import': 'error',
             //  ╔═════════════════════════════════╗

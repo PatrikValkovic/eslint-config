@@ -7,10 +7,6 @@ import javascriptConfigs from './javascript';
 
 type Config = Parameters<typeof javascriptConfigs>[0];
 
-const files = [
-    '**/*.ts',
-];
-
 const config = ({ tsFilePath, languageOptions, ...jsConfig }: Config) => ([
     ...javascriptConfigs({
         tsFilePath,
@@ -18,10 +14,7 @@ const config = ({ tsFilePath, languageOptions, ...jsConfig }: Config) => ([
         ...jsConfig,
     }),
     tsEslint.configs.eslintRecommended,
-    ...tsEslint.configs.strict.map(tsConfig => ({
-        ...tsConfig,
-        files,
-    })),
+    ...tsEslint.configs.strict,
     ...tsEslint.configs.stylistic,
     {
         name: '@patrikvalkovic/eslint-config/typescript',
@@ -41,7 +34,6 @@ const config = ({ tsFilePath, languageOptions, ...jsConfig }: Config) => ([
                 },
             },
         },
-        files,
         plugins: {
             '@stylistic': stylisticPlugin,
         },
@@ -65,7 +57,7 @@ const config = ({ tsFilePath, languageOptions, ...jsConfig }: Config) => ([
                 'error',
                 {
                     'ts-expect-error': 'allow-with-description',
-                }
+                },
             ],
             '@typescript-eslint/ban-tslint-comment': 'off',
             '@typescript-eslint/class-literal-property-style': 'off',
@@ -74,7 +66,7 @@ const config = ({ tsFilePath, languageOptions, ...jsConfig }: Config) => ([
                 {
                     'assertionStyle': 'as',
                     'objectLiteralTypeAssertions': 'allow-as-parameter',
-                }
+                },
             ],
             '@typescript-eslint/consistent-type-definitions': 'off',
             '@typescript-eslint/default-param-last': 'error',
@@ -93,10 +85,9 @@ const config = ({ tsFilePath, languageOptions, ...jsConfig }: Config) => ([
                 'error',
                 {
                     'allowInterfaces': 'with-single-extends',
-                }
+                },
             ],
             '@typescript-eslint/no-loop-func': 'warn',
-            '@typescript-eslint/no-require-imports': 'error',
             '@typescript-eslint/no-shadow': 'warn',
             '@typescript-eslint/no-unnecessary-parameter-property-assignment': 'error',
             '@typescript-eslint/no-unsafe-function-type': 'error',
@@ -113,6 +104,14 @@ const config = ({ tsFilePath, languageOptions, ...jsConfig }: Config) => ([
             '@typescript-eslint/no-useless-empty-export': 'error',
             '@typescript-eslint/no-wrapper-object-types': 'error',
             '@typescript-eslint/prefer-enum-initializers': 'error',
+        },
+    },
+    {
+        ignores: [
+            '**/*.js',
+        ],
+        rules: {
+            '@typescript-eslint/no-require-imports': 'error',
         },
     },
 ]);

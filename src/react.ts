@@ -4,10 +4,10 @@ import typescriptConfig from './typescript';
 
 type Config = Parameters<typeof typescriptConfig>[0];
 
-const config = ({ tsFilePath, ...tsConfig}: Config) => ([
+const config = ({ tsFilePath, ...tsConfig }: Config) => ([
     ...typescriptConfig({
         tsFilePath,
-        ...tsConfig
+        ...tsConfig,
     }),
     {
         name: '@patrikvalkovic/eslint-config/complexity',
