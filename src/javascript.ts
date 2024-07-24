@@ -1,13 +1,10 @@
 import eslint from '@eslint/js';
 // @ts-expect-error typing is missing
 import noOnlyTestsPlugin from 'eslint-plugin-no-only-tests';
-// @ts-expect-error typing is missing
-import unusedImportsPlugin from 'eslint-plugin-unused-imports';
 import patrikImportRulePlugin from '@patrikvalkovic/eslint-plugin-import-rule';
 import stylisticPlugin from '@stylistic/eslint-plugin';
-// eslint plugin import must be required because it doesn't yet support new eslint
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const importPlugin = require('eslint-plugin-import');
+// @ts-expect-error typing is missing
+import * as  importPlugin from 'eslint-plugin-import';
 
 const isFixMode = process.argv.includes('--fix');
 
@@ -33,7 +30,6 @@ const config = ({ tsFilePath, languageOptions }: Config) => ([
         plugins: {
             '@stylistic': stylisticPlugin,
             'eslint-plugin-import': importPlugin,
-            'eslint-plugin-unused-imports': unusedImportsPlugin,
             'eslint-plugin-no-only-tests': noOnlyTestsPlugin,
             '@patrikvalkovic/import-rule': patrikImportRulePlugin,
         },
@@ -48,13 +44,11 @@ const config = ({ tsFilePath, languageOptions }: Config) => ([
             'no-constructor-return': 'error',
             'no-duplicate-imports': 'error',
             'no-inner-declarations': 'error',
-            'no-promise-executor-return': 'error',
             'no-self-compare': 'error',
             'no-template-curly-in-string': 'warn',
             'no-unmodified-loop-condition': 'error',
             'no-unreachable-loop': 'error',
             'no-use-before-define': 'error',
-            'no-useless-assignment': 'error',
             //  ╔═══════════════════════╗
             //  ║                       ║
             //  ║      Suggestions      ║
@@ -80,6 +74,7 @@ const config = ({ tsFilePath, languageOptions }: Config) => ([
             'new-cap': 'error',
             'no-array-constructor': 'error',
             'no-caller': 'error',
+            'no-console': 'error',
             'no-else-return': 'warn',
             'no-empty-function': [
                 'error',
@@ -103,7 +98,6 @@ const config = ({ tsFilePath, languageOptions }: Config) => ([
             'no-labels': 'error',
             'no-lone-blocks': 'warn',
             'no-lonely-if': 'error',
-            'no-loop-func': 'warn',
             'no-multi-str': 'error',
             'no-new': 'warn',
             'no-new-func': 'error',
@@ -120,7 +114,6 @@ const config = ({ tsFilePath, languageOptions }: Config) => ([
             ],
             'no-return-assign': 'error',
             'no-sequences': 'error',
-            'no-shadow': 'warn',
             'no-throw-literal': 'error',
             'no-undef-init': 'error',
             'no-unneeded-ternary': 'error',
@@ -212,10 +205,14 @@ const config = ({ tsFilePath, languageOptions }: Config) => ([
             '@stylistic/func-call-spacing': 'error',
             '@stylistic/function-call-argument-newline': ['error', 'consistent'],
             '@stylistic/function-call-spacing': 'error',
-            '@stylistic/function-paren-newline': ['error', 'multiline-arguments'],
             '@stylistic/generator-star-spacing': ['error', 'after'],
-            '@stylistic/implicit-arrow-linebreak': 'error',
-            '@stylistic/indent': ['error', 4],
+            '@stylistic/indent': [
+                'error',
+                4,
+                {
+                    'SwitchCase': 0,
+                },
+            ],
             '@stylistic/key-spacing': [
                 'error',
                 {
@@ -231,19 +228,15 @@ const config = ({ tsFilePath, languageOptions }: Config) => ([
                     'exceptAfterSingleLine': true,
                 },
             ],
-            '@stylistic/max-len': [
-                'warn',
-                {
-                    'code': 120,
-                },
-            ],
             '@stylistic/new-parens': 'error',
-            '@stylistic/newline-per-chained-call': [
-                'warn',
-                {
-                    'ignoreChainWithDepth': 3,
-                },
-            ],
+            // TODO I want this to either keep everything on the same line, or on a separate line
+            // Currently it keeps 3 on the same line and then just split the last one
+            // '@stylistic/newline-per-chained-call': [
+            //     'warn',
+            //     {
+            //         'ignoreChainWithDepth': 3,
+            //     },
+            // ],
             '@stylistic/no-confusing-arrow': 'error',
             '@stylistic/no-extra-semi': 'error',
             '@stylistic/no-floating-decimal': 'error',
@@ -272,7 +265,13 @@ const config = ({ tsFilePath, languageOptions }: Config) => ([
             ],
             '@stylistic/operator-linebreak': [
                 'error',
-                'before',
+                'after',
+                {
+                    'overrides': {
+                        '?': 'before',
+                        ':': 'before',
+                    },
+                },
             ],
             '@stylistic/quotes': [
                 'error',
@@ -318,31 +317,18 @@ const config = ({ tsFilePath, languageOptions }: Config) => ([
             //  ║                   ║
             //  ╚═══════════════════╝
             'eslint-plugin-import/export': 'error',
-            'eslint-plugin-import/no-deprecated': 'error',
             'eslint-plugin-import/no-empty-named-blocks': 'error',
-            'eslint-plugin-import/no-extraneous-dependencies': [
-                'error',
-                {
-                    devDependencies: [
-                        '**/*.test.*',
-                        '**/*.spec.*',
-                    ],
-                },
-            ],
-            'eslint-plugin-import/no-mutable-exports': 'error',
             // TODO uncomment when it is ready for eslint v9
             // "eslint-plugin-import/no-mutable-exports": "warn",
             // 'eslint-plugin-import/no-named-as-default-member': 'warn',
+            // 'eslint-plugin-import/newline-after-import': 'error',
             // 'eslint-plugin-import/no-amd': 'error',
+            // 'eslint-plugin-import/first': 'error',
             'eslint-plugin-import/default': 'error',
             'eslint-plugin-import/named': 'error',
             'eslint-plugin-import/no-absolute-path': 'error',
             'eslint-plugin-import/no-self-import': 'error',
-            'eslint-plugin-import/no-unresolved': 'error',
             'eslint-plugin-import/no-useless-path-segments': 'error',
-            'eslint-plugin-import/exports-last': 'error',
-            'eslint-plugin-import/first': 'error',
-            // 'eslint-plugin-import/newline-after-import': 'error',
             'eslint-plugin-import/no-duplicates': 'error',
             'eslint-plugin-import/order': [
                 'error',
@@ -350,8 +336,7 @@ const config = ({ tsFilePath, languageOptions }: Config) => ([
                     'newlines-between': 'never',
                 },
             ],
-
-            'eslint-plugin-unused-imports/no-unused-imports': isFixMode ? 'error' : 'off',
+            // 'eslint-plugin-unused-imports/no-unused-imports': isFixMode ? 'error' : 'off',
             '@patrikvalkovic/import-rule/format-import': 'error',
             //  ╔═════════════════════════════════╗
             //  ║                                 ║
