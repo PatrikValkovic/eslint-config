@@ -71,7 +71,14 @@ const config = ({ tsFilePath, languageOptions }: Config) => ([
             'grouped-accessor-pairs': 'error',
             'guard-for-in': 'warn',
             'logical-assignment-operators': 'error',
-            'new-cap': 'error',
+            'new-cap': [
+                'error',
+                {
+                    'capIsNewExceptions': [
+                        'Router', // because of express
+                    ],
+                },
+            ],
             'no-array-constructor': 'error',
             'no-caller': 'error',
             'no-console': 'error',
