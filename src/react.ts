@@ -1,4 +1,3 @@
-// @ts-expect-error typing is missing
 import typescriptParser from '@typescript-eslint/parser';
 import typescriptConfig from './typescript';
 

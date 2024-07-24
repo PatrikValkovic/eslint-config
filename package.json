@@ -1,6 +1,6 @@
 {
   "name": "@patrikvalkovic/eslint-config",
-  "version": "0.0.11",
+  "version": "0.0.12",
   "description": "Opinionated eslint config",
   "repository": {
     "type": "git",
@@ -20,13 +20,14 @@
   },
   "homepage": "https://github.com/PatrikValkovic/eslint-config#readme",
   "files": [
-    "build/**/*"
+    "build/**/*",
+    "tsconfig.base.json"
   ],
   "exports": {
+    "./tsconfig.base.json": "./tsconfig.base.json",
     "./*": {
       "types": "./build/*.d.ts",
-      "require": "./build/*.js",
-      "default": "./build/*.js"
+      "require": "./build/*.js"
     }
   },
   "scripts": {
@@ -52,7 +53,6 @@
     "eslint": "^9.0.0",
     "eslint-plugin-import": "^2.29.1",
     "eslint-plugin-no-only-tests": "^3.1.0",
-    "eslint-plugin-unused-imports": "^4.0.1",
     "ramda": "^0.24.0",
     "typescript-eslint": "^8.0.0-alpha.49"
   }
