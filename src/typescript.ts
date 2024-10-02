@@ -78,7 +78,7 @@ const config = (config: ConfigOrTsPath, overrides?: Config): TSESLint.FlatConfig
                 ],
                 '@typescript-eslint/no-unnecessary-parameter-property-assignment': 'error',
                 '@typescript-eslint/no-unsafe-function-type': 'error',
-                // TODO enable in TSconfig https://stackoverflow.com/a/63767419
+                // TODO enable in tsconfig https://stackoverflow.com/a/63767419
                 '@typescript-eslint/no-unused-vars': 'off',
                 'no-use-before-define': 'off',
                 '@typescript-eslint/no-use-before-define': 'error',
