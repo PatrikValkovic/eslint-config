@@ -1,21 +1,20 @@
 import typescriptParser from '@typescript-eslint/parser';
+import { TSESLint } from '@typescript-eslint/utils';
 import typescriptConfig from './typescript';
+import { ConfigOrTsPath } from './types';
 
-type Config = Parameters<typeof typescriptConfig>[0];
-
-const config = ({ tsFilePath, ...tsConfig }: Config) => ([
-    ...typescriptConfig({
-        tsFilePath,
-        ...tsConfig,
-    }),
+const config = (config: ConfigOrTsPath): TSESLint.FlatConfig.ConfigArray => ([
+    ...typescriptConfig(config),
     {
         name: '@patrikvalkovic/eslint-config/complexity',
-        languageOptions: {
-            parser: typescriptParser,
-            parserOptions: {
-                project: tsFilePath,
+        ...(!config ? {} : typeof config === 'string' ? {
+            languageOptions: {
+                parser: typescriptParser,
+                parserOptions: {
+                    project: config,
+                },
             },
-        },
+        } : config),
         rules: {
             'jsx-quotes': 'error',
             //  ╔══════════════════════╗

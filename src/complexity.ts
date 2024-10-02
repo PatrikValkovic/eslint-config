@@ -1,14 +1,18 @@
 import typescriptParser from '@typescript-eslint/parser';
+import { TSESLint } from '@typescript-eslint/utils';
+import { ConfigOrTsPath } from './types';
 
-const _config = (tsFilePath: string) => ([
+const config = (config: ConfigOrTsPath): TSESLint.FlatConfig.ConfigArray => ([
     {
         name: '@patrikvalkovic/eslint-config/complexity',
-        languageOptions: {
-            parser: typescriptParser,
-            parserOptions: {
-                project: tsFilePath,
+        ...(!config ? {} : typeof config === 'string' ? {
+            languageOptions: {
+                parser: typescriptParser,
+                parserOptions: {
+                    project: config,
+                },
             },
-        },
+        } : config),
         rules: {
             //  ╔═══════════════════════╗
             //  ║                       ║
@@ -28,3 +32,5 @@ const _config = (tsFilePath: string) => ([
         },
     },
 ]);
+
+export = config;
