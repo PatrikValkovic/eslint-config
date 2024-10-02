@@ -1,5 +1,4 @@
 const typescript = require('./build/typescript');
-const globals = require('globals');
 
 module.exports = [
     ...typescript('./tsconfig.json'),

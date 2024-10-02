@@ -1,8 +1,7 @@
 import typescriptParser from '@typescript-eslint/parser';
-import { TSESLint } from '@typescript-eslint/utils';
 import { ConfigOrTsPath } from './types';
 
-const config = (config: ConfigOrTsPath): TSESLint.FlatConfig.ConfigArray => ([
+const config = (config: ConfigOrTsPath) => ([
     {
         name: '@patrikvalkovic/eslint-config/complexity',
         ...(!config ? {} : typeof config === 'string' ? {
