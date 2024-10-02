@@ -2,35 +2,39 @@ import tsEslint from 'typescript-eslint';
 import * as typescriptParser from '@typescript-eslint/parser';
 import stylisticPlugin from '@stylistic/eslint-plugin';
 import { TSESLint } from '@typescript-eslint/utils';
+import { deepMerge } from '@typescript-eslint/utils/eslint-utils';
 import javascriptConfigs from './javascript';
-import { ConfigOrTsPath } from './types';
+import { Config, ConfigOrTsPath } from './types';
 
-const config = (config: ConfigOrTsPath): TSESLint.FlatConfig.ConfigArray => {
-    const configToUse = typeof config === 'string' ? {
-        settings: {
-            'eslint-plugin-import/resolver': {
-                typescript: {
-                    project: [config],
+const config = (config: ConfigOrTsPath, overrides?: Config): TSESLint.FlatConfig.ConfigArray => {
+    const configToUse = deepMerge(
+        typeof config === 'string' ? {
+            settings: {
+                'eslint-plugin-import/resolver': {
+                    typescript: {
+                        project: [config],
+                    },
+                    node: true,
                 },
-                node: true,
             },
-        },
-        languageOptions: {
-            parser: typescriptParser,
-            parserOptions: {
-                project: config,
+            languageOptions: {
+                parser: typescriptParser,
+                parserOptions: {
+                    project: config,
+                },
             },
-        },
-    } : config;
+        } : config,
+        overrides,
+    );
 
     return [
-        ...javascriptConfigs(configToUse),
+        ...javascriptConfigs(configToUse, overrides),
         tsEslint.configs.eslintRecommended,
         ...tsEslint.configs.strict,
         ...tsEslint.configs.stylistic,
         {
-            name: '@patrikvalkovic/eslint-config/typescript',
             ...configToUse,
+            name: '@patrikvalkovic/eslint-config/typescript',
             plugins: {
                 '@stylistic': stylisticPlugin,
             },
