@@ -4,29 +4,26 @@ import noOnlyTestsPlugin from 'eslint-plugin-no-only-tests';
 import patrikImportRulePlugin from '@patrikvalkovic/eslint-plugin-import-rule';
 import stylisticPlugin from '@stylistic/eslint-plugin';
 // @ts-expect-error typing is missing
-import * as  importPlugin from 'eslint-plugin-import';
+import * as importPlugin from 'eslint-plugin-import';
+import { TSESLint } from '@typescript-eslint/utils';
+import { ConfigOrTsPath } from './types';
 
 const isFixMode = process.argv.includes('--fix');
 
-type Config = {
-    tsFilePath: string;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    languageOptions?: any;
-};
-
-const config = ({ tsFilePath, languageOptions }: Config) => ([
+const config = (config?: ConfigOrTsPath): TSESLint.FlatConfig.ConfigArray => ([
     eslint.configs.recommended,
     {
         name: '@patrikvalkovic/eslint-config/javascript',
-        settings: {
-            'eslint-plugin-import/resolver': {
-                typescript: {
-                    project: [tsFilePath],
+        ...(!config ? {} : typeof config === 'string' ? {
+            settings: {
+                'eslint-plugin-import/resolver': {
+                    typescript: {
+                        project: [config],
+                    },
+                    node: true,
                 },
-                node: true,
             },
-        },
-        ...(languageOptions && { languageOptions }),
+        } : config),
         plugins: {
             '@stylistic': stylisticPlugin,
             'eslint-plugin-import': importPlugin,
@@ -325,8 +322,7 @@ const config = ({ tsFilePath, languageOptions }: Config) => ([
             //  ╚═══════════════════╝
             'eslint-plugin-import/export': 'error',
             'eslint-plugin-import/no-empty-named-blocks': 'error',
-            // TODO uncomment when it is ready for eslint v9
-            // "eslint-plugin-import/no-mutable-exports": "warn",
+            // 'eslint-plugin-import/no-mutable-exports': 'warn',
             // 'eslint-plugin-import/no-named-as-default-member': 'warn',
             // 'eslint-plugin-import/newline-after-import': 'error',
             // 'eslint-plugin-import/no-amd': 'error',
@@ -343,7 +339,7 @@ const config = ({ tsFilePath, languageOptions }: Config) => ([
                     'newlines-between': 'never',
                 },
             ],
-            // 'eslint-plugin-unused-imports/no-unused-imports': isFixMode ? 'error' : 'off',
+            'eslint-plugin-unused-imports/no-unused-imports': isFixMode ? 'error' : 'off',
             '@patrikvalkovic/import-rule/format-import': 'error',
             //  ╔═════════════════════════════════╗
             //  ║                                 ║
