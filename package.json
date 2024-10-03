@@ -1,6 +1,6 @@
 {
   "name": "@patrikvalkovic/eslint-config",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "description": "Opinionated eslint config",
   "repository": {
     "type": "git",
@@ -32,7 +32,9 @@
   },
   "scripts": {
     "build": "rimraf ./build && tsc --build ./tsconfig.json",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "type-check": "npx tsc --noEmit --project ./tsconfig.json",
+    "lint": "npx eslint",
+    "test": "echo \"No test specified\" && exit 0"
   },
   "devDependencies": {
     "@types/eslint__js": "^8.42.3",
