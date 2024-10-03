@@ -24,7 +24,7 @@ npm install -D eslint @patrikvalkovic/eslint-config
 The package currently has 3 configurations, imported from within the package
 - `@patrikvalkovic/eslint-config/javascript` for JavaScript code,
 - `@patrikvalkovic/eslint-config/typescript` for TypeScript,
-- `@patrikvalkovic/eslint-config/reacet` for React.
+- `@patrikvalkovic/eslint-config/react` for React.
 
 There is also tsconfig with preconfigured strict compiler options.
 - `@patrikvalkovic/eslint-config/tsconfig.base.json`
