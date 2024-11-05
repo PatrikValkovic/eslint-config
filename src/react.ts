@@ -18,6 +18,8 @@ type Config = Pick<TSESLint.FlatConfig.Config, 'settings' | 'languageOptions'|'l
 type ConfigOrTsPath = Config | string;
 
 const config = (config: ConfigOrTsPath, overrides?: Config) => {
+    if (!reactConfigs.flat?.all)
+        throw new Error('eslint-plugin-react is missing flat config "all" key');
     const actualConfig = deepMerge(
         typeof config === 'string' ? {
             settings: {
