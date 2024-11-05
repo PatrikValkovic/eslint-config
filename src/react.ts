@@ -35,7 +35,7 @@ const config = (config: ConfigOrTsPath, overrides?: Config) => {
                         jsx: true,
                     },
                 },
-                global: {
+                globals: {
                     ...globals.browser,
                 },
             },
