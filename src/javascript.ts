@@ -7,6 +7,7 @@ import stylisticPlugin from '@stylistic/eslint-plugin';
 import * as importPlugin from 'eslint-plugin-import';
 import { TSESLint } from '@typescript-eslint/utils';
 import { deepMerge } from '@typescript-eslint/utils/eslint-utils';
+import unusedImportsPlugin from 'eslint-plugin-unused-imports';
 import { Config, ConfigOrTsPath } from './types';
 
 const isFixMode = process.argv.includes('--fix');
@@ -35,6 +36,7 @@ const config = (config?: ConfigOrTsPath, overrides?: Config): TSESLint.FlatConfi
                 'eslint-plugin-import': importPlugin,
                 'eslint-plugin-no-only-tests': noOnlyTestsPlugin,
                 '@patrikvalkovic/import-rule': patrikImportRulePlugin,
+                'unused-imports': unusedImportsPlugin,
             },
             rules: {
                 //  ╔════════════════════╗
@@ -345,7 +347,7 @@ const config = (config?: ConfigOrTsPath, overrides?: Config): TSESLint.FlatConfi
                         'newlines-between': 'never',
                     },
                 ],
-                'eslint-plugin-unused-imports/no-unused-imports': isFixMode ? 'error' : 'off',
+                'unused-imports/no-unused-imports': isFixMode ? 'error' : 'off',
                 '@patrikvalkovic/import-rule/format-import': 'error',
                 //  ╔═════════════════════════════════╗
                 //  ║                                 ║
