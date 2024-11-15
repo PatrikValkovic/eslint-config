@@ -78,8 +78,18 @@ const config = (config: ConfigOrTsPath, overrides?: Config): TSESLint.FlatConfig
                 ],
                 '@typescript-eslint/no-unnecessary-parameter-property-assignment': 'error',
                 '@typescript-eslint/no-unsafe-function-type': 'error',
+                '@typescript-eslint/no-unused-vars': [
+                    'error',
+                    {
+                        'args': 'all',
+                        'argsIgnorePattern': '^_',
+                        'caughtErrors': 'all',
+                        'caughtErrorsIgnorePattern': '^_',
+                        'destructuredArrayIgnorePattern': '^_',
+                        'varsIgnorePattern': '^_',
+                    },
+                ],
                 // enable in tsconfig
-                '@typescript-eslint/no-unused-vars': 'off',
                 'no-use-before-define': 'off',
                 '@typescript-eslint/no-use-before-define': 'error',
                 '@typescript-eslint/no-useless-constructor': 'error',
