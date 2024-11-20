@@ -76,14 +76,7 @@ const config = (config?: ConfigOrTsPath, overrides?: Config): TSESLint.FlatConfi
                 'grouped-accessor-pairs': 'error',
                 'guard-for-in': 'warn',
                 'logical-assignment-operators': 'error',
-                'new-cap': [
-                    'error',
-                    {
-                        'capIsNewExceptions': [
-                            'Router', // because of express
-                        ],
-                    },
-                ],
+                'new-cap': 'off',
                 'no-array-constructor': 'error',
                 'no-caller': 'error',
                 'no-console': 'error',
