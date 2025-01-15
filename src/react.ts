@@ -131,6 +131,12 @@ const config = (config: ConfigOrTsPath, overrides?: Config) => {
                 'react/jsx-sort-default-props': 'off',
                 'react/jsx-sort-props': 'off',
                 'react/jsx-space-before-closing': 'off',
+                'react/jsx-no-bind': [
+                    'error',
+                    {
+                        'allowArrowFunctions': true,
+                    },
+                ],
                 'react/no-adjacent-inline-elements': 'off',
                 'react/no-multi-comp': [
                     'error',
