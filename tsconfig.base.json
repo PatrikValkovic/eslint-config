@@ -1,6 +1,5 @@
 {
   "compilerOptions": {
-    "allowUnreachableCode": false,
     "allowUnusedLabels": false,
     "noImplicitOverride": true,
     "noImplicitReturns": true,

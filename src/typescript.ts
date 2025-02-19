@@ -39,6 +39,7 @@ const config = (config: ConfigOrTsPath, overrides?: Config): TSESLint.FlatConfig
                 '@stylistic': stylisticPlugin,
             },
             rules: {
+                'no-unused-vars': 'off',
                 'no-unused-expression': 'off',
                 //  ╔══════════════════════╗
                 //  ║                      ║
