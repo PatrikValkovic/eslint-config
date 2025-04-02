@@ -41,6 +41,7 @@ const config = (config: ConfigOrTsPath, overrides?: Config): TSESLint.FlatConfig
             rules: {
                 'no-unused-vars': 'off',
                 'no-unused-expression': 'off',
+                'consistent-return': 'off',
                 //  ╔══════════════════════╗
                 //  ║                      ║
                 //  ║      @stylistic      ║
@@ -102,6 +103,7 @@ const config = (config: ConfigOrTsPath, overrides?: Config): TSESLint.FlatConfig
         },
         {
             ...configToUse,
+            name: '@patrikvalkovic/eslint-config/typescript/require',
             ignores: [
                 '**/*.js',
             ],
