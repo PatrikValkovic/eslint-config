@@ -3,7 +3,6 @@ import eslint from '@eslint/js';
 import noOnlyTestsPlugin from 'eslint-plugin-no-only-tests';
 import patrikImportRulePlugin from '@patrikvalkovic/eslint-plugin-import-rule';
 import stylisticPlugin from '@stylistic/eslint-plugin';
-// @ts-expect-error typing is missing
 import * as importPlugin from 'eslint-plugin-import';
 import { TSESLint } from '@typescript-eslint/utils';
 import { deepMerge } from '@typescript-eslint/utils/eslint-utils';

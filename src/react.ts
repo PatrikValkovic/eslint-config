@@ -1,5 +1,4 @@
 import { configs as reactConfigs, default as reactPlugin } from 'eslint-plugin-react';
-// @ts-expect-error typing is missing
 import { default as reactHooksPlugin } from 'eslint-plugin-react-hooks';
 import { TSESLint } from '@typescript-eslint/utils';
 import typescriptParser from '@typescript-eslint/parser';
