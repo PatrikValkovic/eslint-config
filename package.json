@@ -40,14 +40,16 @@
     "build": "rimraf ./build && tsc --build ./tsconfig.json",
     "type-check": "npx tsc --noEmit --project ./tsconfig.json",
     "lint": "npx eslint",
-    "test": "echo \"No test specified\" && exit 0"
+    "pretest": "npm run build && cd tests && npm install --prefer-offline",
+    "test": "vitest run --config ./tests/vitest.config.ts"
   },
   "devDependencies": {
     "@types/eslint__js": "^8.42.3",
     "@types/node": "^25.2.3",
     "globals": "^17.3.0",
     "rimraf": "^6.0.1",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "vitest": "^4.0.18"
   },
   "dependencies": {
     "@eslint/js": "^10.0.0",

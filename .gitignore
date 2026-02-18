@@ -2,3 +2,5 @@ node_modules
 build
 .idea
 .vscode
+tests/node_modules
+tests/package-lock.json

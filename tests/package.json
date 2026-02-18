@@ -1,0 +1,6 @@
+{
+    "private": true,
+    "dependencies": {
+        "@patrikvalkovic/eslint-config": "file:.."
+    }
+}
