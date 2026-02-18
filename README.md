@@ -7,7 +7,7 @@ Contains also formatting rules and is supposed to work **without prettier**.
 In general contains everything from plugins *recommended* configs and many
 more optional rules enable.
 
-Configured for eslint 9.0.0 and above using flat config.
+Configured for eslint 10.0.0 and above using flat config.
 
 The package is primarily **typescript** focused.
 
@@ -31,11 +31,22 @@ There is also tsconfig with preconfigured strict compiler options.
 
 ## Usage
 
-Require the desired configuration and spread it into eslint config. 
+Import or require the desired configuration and spread it into eslint config.
+Both CommonJS and ESM module systems are supported.
 
-The package generates rules and configurations, for most cases you just need 
+The package generates rules and configurations, for most cases you just need
 to provide path to tsconfig file.
 
+**ESM** (`eslint.config.mjs` or `"type": "module"` in `package.json`):
+```javascript
+import typescript from '@patrikvalkovic/eslint-config/typescript';
+
+export default [
+    ...typescript('./tsconfig.json'),
+];
+```
+
+**CommonJS** (`eslint.config.cjs` or no `"type": "module"` in `package.json`):
 ```javascript
 const typescript = require('@patrikvalkovic/eslint-config/typescript');
 
@@ -45,9 +56,26 @@ module.exports = [
 ```
 
 The function generates the necessary configuration. Alternatively, you may
-pass your own configuration and either replace the generated configuration 
+pass your own configuration and either replace the generated configuration
 (when passed as first parameter), or merge it with the generated one (when passed as second parameter).
 
+**ESM:**
+```javascript
+import react from '@patrikvalkovic/eslint-config/react';
+import globals from 'globals';
+
+export default [
+    ...react('./tsconfig.json', {
+        languageOptions: {
+            globals: {
+                ...globals.browser,
+            }
+        }
+    }),
+];
+```
+
+**CommonJS:**
 ```javascript
 const react = require('@patrikvalkovic/eslint-config/react');
 const globals = require('globals')
@@ -82,17 +110,17 @@ You can extend your tsconfig directly using the package name.
 
 ### Ignore files
 
-When you specify config blog with just `ignores` property (no rules defined),
-these ignored rules will be ignored across all the rules.
+When you specify a config block with just `ignores` property (no rules defined),
+these ignores will apply across all rules.
 
 ```javascript
-const typescript = require('@patrikvalkovic/eslint-config/javascript');
+import javascript from '@patrikvalkovic/eslint-config/javascript';
 
-module.exports = [
+export default [
     ...javascript(),
     {
         ignores: [
-            'eslint.config.js',
+            'eslint.config.mjs',
             'build/**/*',
         ],
     },
@@ -101,12 +129,12 @@ module.exports = [
 
 ### Disable rules
 
-If some rule doesn't suite you, you can turn it off in separate config block.
+If some rule doesn't suit you, you can turn it off in a separate config block.
 
 ```javascript
-const typescript = require('@patrikvalkovic/eslint-config/typescript');
+import typescript from '@patrikvalkovic/eslint-config/typescript';
 
-module.exports = [
+export default [
     ...typescript('tsconfig.base.json'),
     {
         rules: {
