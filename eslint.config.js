@@ -6,6 +6,7 @@ module.exports = [
         ignores: [
             'eslint.config.js',
             'build/**/*',
+            "tests/**/*"
         ],
     },
 ];

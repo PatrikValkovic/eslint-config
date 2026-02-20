@@ -40,6 +40,7 @@
     "build": "rimraf ./build && tsc --build ./tsconfig.json",
     "type-check": "npx tsc --noEmit --project ./tsconfig.json",
     "lint": "npx eslint",
+    "lint:fix": "npx eslint --fix",
     "pretest": "npm run build && cd tests && npm install --prefer-offline",
     "test": "vitest run --config ./tests/vitest.config.ts"
   },
@@ -60,7 +61,7 @@
     "@typescript-eslint/parser": "^8.8.0",
     "@typescript-eslint/utils": "^8.8.0",
     "eslint": "^10.0.0",
-    "eslint-plugin-import": "^2.31.0",
+    "eslint-plugin-import-x": "^4.16.1",
     "eslint-plugin-no-only-tests": "^3.3.0",
     "eslint-plugin-react": "^7.37.1",
     "eslint-plugin-react-hooks": "^7.0.1",

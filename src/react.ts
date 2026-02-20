@@ -74,7 +74,18 @@ const config = (config: ConfigOrTsPath, overrides?: Config) => {
                 '@stylistic/jsx-pascal-case': 'error',
                 '@stylistic/jsx-self-closing-comp': 'error',
                 '@stylistic/jsx-tag-spacing': 'error',
-                '@stylistic/jsx-wrap-multilines': 'error',
+                '@stylistic/jsx-wrap-multilines': [
+                    'error',
+                    {
+                        declaration: 'parens-new-line',
+                        assignment: 'parens-new-line',
+                        return: 'parens-new-line',
+                        arrow: 'parens-new-line',
+                        condition: 'parens-new-line',
+                        logical: 'parens-new-line',
+                        prop: 'ignore',
+                    },
+                ],
                 //  ╔═════════════════════════╗
                 //  ║                         ║
                 //  ║      @react plugin      ║
@@ -121,7 +132,16 @@ const config = (config: ConfigOrTsPath, overrides?: Config) => {
                         'propElementValues': 'always',
                     },
                 ],
-                'react/jsx-max-props-per-line': 'off',
+                'react/jsx-first-prop-new-line': [
+                    'error',
+                ],
+                'react/jsx-max-props-per-line': [
+                    'error',
+                    {
+                        maximum: 1,
+                        when: 'multiline',
+                    },
+                ],
                 'react/jsx-newline': 'off',
                 'react/jsx-no-literals': 'off',
                 'react/jsx-one-expression-per-line': 'off',

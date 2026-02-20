@@ -3,7 +3,7 @@ import eslint from '@eslint/js';
 import noOnlyTestsPlugin from 'eslint-plugin-no-only-tests';
 import patrikImportRulePlugin from '@patrikvalkovic/eslint-plugin-import-rule';
 import stylisticPlugin from '@stylistic/eslint-plugin';
-import * as importPlugin from 'eslint-plugin-import';
+import * as importPlugin from 'eslint-plugin-import-x';
 import { TSESLint } from '@typescript-eslint/utils';
 import { deepMerge } from '@typescript-eslint/utils/eslint-utils';
 import unusedImportsPlugin from 'eslint-plugin-unused-imports';
@@ -15,7 +15,7 @@ const config = (config?: ConfigOrTsPath, overrides?: Config): TSESLint.FlatConfi
     const configToUse = deepMerge(
         !config ? {} : typeof config === 'string' ? {
             settings: {
-                'eslint-plugin-import/resolver': {
+                'import-x/resolver': {
                     typescript: {
                         project: [config],
                     },
